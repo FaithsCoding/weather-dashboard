@@ -1,3 +1,4 @@
+// This function takes in a city name as a parameter and adds it to a list of cities stored in local storage. The city is only added if it is not already in the list.
 function addInfo(city) {
   const addedList = getInfo();
   if (!addedList.includes(city)) {
@@ -10,7 +11,7 @@ function getCityCode(cityName) {
   const city = cityName ? cityName : document.getElementById("city").value;
   const apiKey = "da651d05e4f8445435fe5d5570543601";
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
-
+ // We query the OpenWeatherMap API for the City Name to obtain the latitutde and longitude attributes, so we can obtain a full forecast.
   fetch(url)
     .then((response) => response.json())
     .then((data) => {
@@ -40,14 +41,14 @@ function getCityCode(cityName) {
         const iconUrl = `https://openweathermap.org/img/w/${iconCode}.png`;
         const forecastContainer = document.getElementById("forecast-cards");
 
-        // Only show one forecast per day
+        // The API provides a 3 hourly forecast for each date, but we only want to show one for each day. 
         if (forecastDate !== currentDate) {
           currentDate = forecastDate;
           counter++;
         } else {
           return;
         }
-
+// We need to build cards for each day of the forecast, containing the required information including icon, city name, date, temperature, humidity, windspeed and weather description.
         if (counter <= 5) {
           const forecastItem = document.createElement("div");
           forecastItem.classList.add("card");
@@ -73,6 +74,7 @@ function getCityCode(cityName) {
     .catch((error) => console.log(error));
 }
 
+// This function retrieves the list of cities from local storage and returns it as an array.
 function getInfo() {
   let cityList = [];
   const storedList = localStorage.getItem("city");
@@ -82,11 +84,12 @@ function getInfo() {
   return cityList;
 }
 
+// This function retrieves the list of cities from local storage using the getInfo() function and creates HTML elements to display the list of cities on the page. It also adds event listeners to the city list items so that when a user clicks on a city name, the getCityCode() function is called to retrieve the weather forecast for that city.
 function updateCityList() {
-  // Get the list of cities from local storage
+  // Get the list of cities from that are currently in our local storage
   const cityList = getInfo();
 
-  // Clear the existing content of the city list element
+  // Clear the existing content of the city list
   const cityListElement = document.getElementById("cityList");
   cityListElement.innerHTML = "";
 
@@ -129,10 +132,11 @@ function loadCitiesFromStorage() {
   });
 }
 
+//This event listener is called when the page finishes loading and allows the search form to call the getCityCode() function when the form is submitted. It also calls the loadCitiesFromStorage() function to display the list of cities stored in local storage.
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("search-form");
   form.addEventListener("submit", (event) => {
-    event.preventDefault(); // Prevent form submission on enter key press
+    event.preventDefault(); 
     getCityCode();
   });
   loadCitiesFromStorage();
