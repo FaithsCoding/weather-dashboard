@@ -1,221 +1,139 @@
-var inputCity = document.getElementById("myInput").value;
-const cityRequest = inputCity;
-var countryCode = "US";
-var cityName = $("<h3>");
-var temp = $("<div>");
-var wind = $("<div>");
-var humidity = $("<div>");
-var uvIndex = $("<div>");
-var icon = $("<img>");
-icon.addClass("icon");
-var dateTime = $("<div>");
-var data;
-var listGroup = $("<div>");
-
-$(".city").addClass(listGroup);
-$(".city").append(cityName);
-$(".city").append(dateTime);
-$(".city").append(icon);
-$(".city").append(temp);
-$(".city").append(wind);
-$(".city").append(humidity);
-$(".city").append(uvIndex);
-
-document.getElementById("searchBtn").addEventListener("click", addResult);
-document.getElementById("searchBtn").addEventListener("click", getResult);
-
-function getResult() {
-  $(".five-day").empty();
-  $(".city").empty();
-};
-
-fetch(findUrl) {
-var findApiUrl = "https://api.openweathermap.org/data/2.5/find?q=" + inputCity + "&appid=da651d05e4f8445435fe5d5570543601";
-  .then(response => response.json())
-  .then(data => {
-    const geoLat = data.list[0].id;
-    const geoLon = data.list[0].id;
-  })
-  .catch(error => console.log(error));
+function addInfo(city) {
+  const addedList = getInfo();
+  if (!addedList.includes(city)) {
+    addedList.push(city);
+    localStorage.setItem("city", JSON.stringify(addedList));
+  }
 }
 
-fetch(apiUrl)
-var apiUrl = "https://api.openweathermap.org/data/2.5/forecast?lat=&appid=da651d05e4f8445435fe5d5570543601";
-  .then(function (response) {
-    console.log(response);
-    return response.json();
-  })
-  .then(function (data) {
-    if (data.coord) {
-      geoLat = data.coord.lat;
-      geoLon = data.coord.lon;
-  
+function getCityCode(cityName) {
+  const city = cityName ? cityName : document.getElementById("city").value;
+  const apiKey = "da651d05e4f8445435fe5d5570543601";
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
 
-      var weather = data.current.weather;
-      var weatherIcon = data.current.weather[0].icon;
-      var imgSrc = "https://openweathermap.org/img/wn/" + weatherIcon + ".png";
-      var icon = $("#weather-icon");
-      icon.attr("src", imgSrc);
+  fetch(url)
+    .then((response) => response.json())
+    .then((data) => {
+      const lon = data.coord.lon;
+      const lat = data.coord.lat;
+      console.log(`The coordinates of ${city} are lon: ${lon}, lat: ${lat}.`);
+      const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
+      return fetch(forecastUrl);
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      const forecastContainer = document.getElementById("forecast-cards");
+      forecastContainer.innerHTML = "";
 
-      var cityName = $("#city-name");
-      cityName.text(cityCode);
+      let currentDate = new Date().getDate();
+      let counter = 0;
 
-      var date = new Date(data.current.dt * 1000);
-      var dateTime = $("#date-time");
-      dateTime.text(
-        "(" +
-          (date.getMonth() + 1) +
-          "/" +
-          date.getDate() +
-          "/" +
-          date.getFullYear() +
-          ")"
-      );
+      data.list.forEach((forecast) => {
+        const date = new Date(forecast.dt * 1000);
+        const forecastDate = date.getDate();
+        const temperature = forecast.main.temp;
+        const humidity = forecast.main.humidity;
+        const windSpeedInMPS = forecast.wind.speed;
+        const windSpeedInMPH = (windSpeedInMPS * 2.237).toFixed(1);
+        const description = forecast.weather[0].description;
+        const iconCode = forecast.weather[0].icon;
+        const iconUrl = `https://openweathermap.org/img/w/${iconCode}.png`;
+        const forecastContainer = document.getElementById("forecast-cards");
 
-      var temp = $("#temperature");
-      temp.text("Temperature: " + data.current.temp + " F");
+        // Only show one forecast per day
+        if (forecastDate !== currentDate) {
+          currentDate = forecastDate;
+          counter++;
+        } else {
+          return;
+        }
 
-      var humidity = $("#humidity");
-      humidity.text("Humidity: " + data.current.humidity + " %");
+        if (counter <= 5) {
+          const forecastItem = document.createElement("div");
+          forecastItem.classList.add("card");
+          forecastItem.innerHTML = `
+          <div class="card-body">
+          <img src="${iconUrl}" alt="${description}" class="card-img-top">
+          <p class="forecast-title">${city}</h5>
+          <p class="card-text">${date.toLocaleDateString()}</h5>
+          <p class="card-text">Temperature: ${temperature} &deg;C</p>
+          <p class="card-text">Humidity: ${humidity}</p>
+          <p class="card-text">Wind Speed: ${windSpeedInMPH} MPH</p>
+          <p class="card-text">Description: ${description}</p>
+        </div>
+            `;
+          forecastContainer.appendChild(forecastItem);
+        }
+      });
 
-      var wind = $("#wind-speed");
-      wind.text("Wind Speed: " + data.current.wind_speed + " MPH");
-
-      var uvIndex = $("#uv-index");
-      uvIndex.text("UV Index: ");
-      var uvi = $("<div>");
-      uvi.text(data.current.uvi);
-      uvIndex.append(uvi);
-      uvIndex.addClass("d-flex");
-
-      if (data.current.uvi < 3) {
-        uvi.attr(
-          "style",
-          "background-color:green; color:black; margin-left: 5px"
-        );
-      } else if (data.current.uvi < 6) {
-        uvi.attr(
-          "style",
-          "background-color:yellow; color:black; margin-left: 5px"
-        );
-      } else if (data.current.uvi < 8) {
-        uvi.attr(
-          "style",
-          "background-color:orange; color:black; margin-left: 5px"
-        );
-      } else if (data.current.uvi < 11) {
-        uvi.attr(
-          "style",
-          "background-color:red; color:black; margin-left: 5px"
-        );
-      } else {
-        uvi.attr(
-          "style",
-          "background-color:purple; color:black; margin-left: 5px"
-        );
-      }
-
-      var fiveDay = $(".five-day");
-      fiveDay.empty();
-
-      for (var i = 1; i < 6; i++) {
-        var blueContainer = $("<div>").addClass("weather-card");
-        var futureDate = $("<h>").text(
-          new Date(data.daily[i].dt * 1000)
-            .toLocaleDateString()
-            .replace(/\//g, "-")
-        );
-        var futureIcon = $("<img>").attr(
-          "src",
-          "https://openweathermap.org/img/wn/" +
-            data.daily[i].weather[0].icon +
-            ".png"
-        );
-        var futureTemp = $("<div>").text(
-          "Temperature: " + data.daily[i].temp.day + "C"
-        );
-        var futureHumidity = $("<div>").text(
-          "Humidity: " + data.daily[i].humidity + " %"
-        );
-
-        blueContainer.append(
-          futureDate,
-          futureIcon,
-          futureTemp,
-          futureHumidity
-        );
-        fiveDay.append(blueContainer);
-      }
-    } else {
-      console.error("Data is empty");
-    }
-  });
+      // Call the addInfo function to update local storage
+      addInfo(city);
+      updateCityList();
+    })
+    .catch((error) => console.log(error));
+}
 
 function getInfo() {
- // Get the list of cities from local storage
-const cityList = getInfo();
+  let cityList = [];
+  const storedList = localStorage.getItem("city");
+  if (storedList !== null) {
+    cityList = JSON.parse(storedList);
+  }
+  return cityList;
+}
 
-// Loop through the city list and create a list item element for each city
-for (let i = 0; i < cityList.length; i++) {
-  const city = cityList[i];
-  const listItem = $("<li>").text(city);
+function updateCityList() {
+  // Get the list of cities from local storage
+  const cityList = getInfo();
 
-  // Add an event listener to the list item to get the weather data of the clicked city
-  listItem.on("click", function() {
-    getWeatherData(city);
+  // Clear the existing content of the city list element
+  const cityListElement = document.getElementById("cityList");
+  cityListElement.innerHTML = "";
+
+  // Loop through the city list and create a list item for each city
+  cityList.forEach((city) => {
+    const listItem = document.createElement("li");
+    listItem.textContent = city;
+
+    // Add an event listener to the list item to get the weather data of the clicked city
+    listItem.addEventListener("click", () => getCityCode(city));
+
+    // Append the list item to the city list element
+    cityListElement.appendChild(listItem);
   });
-
-  // Append the list item to the unordered list element
-  $(".cityList").append(listItem);
-}
 }
 
-function addInfo(n) {
-  var cityCode = inputCity;
-  var addedList = getInfo();
-  if (addedList.includes(n) === false) {
-    addedList.push(n);
-  }
-  localStorage.setItem("city", JSON.stringify(addedList));
+function displayCityList() {
+  const cityList = JSON.parse(localStorage.getItem("cityList")) || [];
+
+  const cityListElement = document.getElementById("cityList");
+  cityListElement.innerHTML = "";
+
+  cityList.forEach((city) => {
+    const li = document.createElement("li");
+    li.textContent = city;
+    li.addEventListener("click", () => getWeather(city));
+    cityListElement.appendChild(li);
+  });
 }
 
-document.getElementById("searchBtn").addEventListener("click", addResult);
-document.getElementById("searchBtn").addEventListener("click", getResult);
-
-function getResult() {
-  $(".five-day").empty();
-  $(".city").empty();
+function loadCitiesFromStorage() {
+  const cityList = getInfo();
+  const cityListElement = document.getElementById("cityList");
+  cityListElement.innerHTML = "";
+  cityList.forEach((city) => {
+    const listItem = document.createElement("li");
+    listItem.textContent = city;
+    listItem.addEventListener("click", () => getCityCode(city));
+    cityListElement.appendChild(listItem);
+  });
 }
 
-function addResult() {
-  inputCity = document.getElementById("myInput").value;
-  var searchCity = $("<div>");
-  searchCity.attr("id", inputCity);
-  searchCity.text(inputCity);
-  searchCity.addClass("h4");
-  $(".history").append(searchCity);
-  addInfo(inputCity);
-  $(".subtitle").attr("style", "display:inline");
-}
-
-$(".history").on("click", "div", function (event) {
-  event.preventDefault();
-  $(".subtitle").attr("style", "display:inline");
-  document.getElementById("myInput").value = event.target.id;
-  getResult();
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("search-form");
+  form.addEventListener("submit", (event) => {
+    event.preventDefault(); // Prevent form submission on enter key press
+    getCityCode();
+  });
+  loadCitiesFromStorage();
 });
-
-function renderInfo() {
-  var historyList = getInfo();
-  for (var i = 0; i < historyList.length; i++) {
-    var inputCity = historyList[i];
-    var searchCity = $("<div>");
-    searchCity.attr("id", inputCity);
-    searchCity.text(inputCity);
-    searchCity.addClass("h4");
-
-    $(".history").append(searchCity);
-  }
-}
-
-renderInfo();

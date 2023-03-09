@@ -1,10 +1,10 @@
 :root {
-    --primary: #b5ccdf;
+    --primary: #ffffff;
     --secondary: #509ad7;
     --tertiary: #79a3c8;
     --light-dark: #4b74a5;
     --dark: #425364;
-    --border-radius: 0.3rem;
+    --pink: #dec3c3;
 }
 
 * {
@@ -30,7 +30,7 @@ h5,
 h6 {
     font-weight: 500;
     margin: 0;
-    color: var(--dark);
+    color: var(--primary);
     line-height: 1.25;
 }
 
@@ -99,7 +99,8 @@ h6 {
 
 .hero {
     padding: 3% 4%;
-    color: var(--primary);
+    color: #FFF;
+    background-color: var(--pink);
 }
 
 
@@ -132,8 +133,8 @@ h6 {
     height: 10%;
 }
 
-.card {
-    border: 3px solid var(--dark);
+.side {
+    border: 3px solid var(--pink);
     border-radius: var(--border-radius);
     align-content: center;
     float: left;
@@ -152,17 +153,77 @@ h6 {
     display: flex;
 }
 
+.card-header {
+    background-color: var(--pink);
+  }
+
+.forecast-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+#forecast-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    padding-top: ;
+  } 
+
 .subtitle {
     display: none;
 }
 
 .forecast-item {
+    width: 200px;
+    height: 300px;
+    margin: 10px;
+    background-color: #eee;
     border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 10px;
-}
+  }
+
 
 .forecast-icon {
     font-size: 2rem;
 }
+
+.forecast-title {
+    font-weight: bold;
+    text-transform: capitalize;
+}
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    position: relative;
+    min-height: 100%;
+  }
+  body {
+    margin-bottom: 60px; /* Margin bottom by footer height */
+  }
+  .footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 60px; /* Set the fixed height of the footer here */
+    line-height: 60px; /* Vertically center the text there */
+    background-color: #f5f5f5;
+  }
+  
+  
+  /* Custom page CSS
+  -------------------------------------------------- */
+  /* Not required for template or sticky footer method. */
+  
+  .container {
+    width: auto;
+    max-width: 680px;
+    padding: 0 15px;
+  }
+
+  .card {
+    width: 200px;
+    height: 500px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    border: 4px solid --pink;
+  }
