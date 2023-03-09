@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+
     <link rel="stylesheet" href="./assets/style.css">
     <title>Weather Dashboard</title>
 </head>
@@ -29,15 +30,21 @@
         <div class="col-12 col-sm-12 col-md-4">
 
             <div class="card">
-                <h3 class="card-header">Search for a city</h3>
-                <div id="user-form" class="card-body">
+                <!--<div id="user-form" class="card-body">
                     <input type="text" id="myInput" placeholder="City Name...">
                     <button class="btn" id="searchBtn">Search</button>
-                </div>
+                </div>-->
+                <form>
+                    <label for="city">Enter city name:</label>
+                    <input type="text" id="city" name="city">
+                    <button type="button" id="submitBtn" onclick="getCityCode()">Search</button>
+                </form>
+
             </div>
 
             <div class="card history">
                 <h3 class="card-header">Search History</h3>
+                <ul id="cityList"></ul>
             </div>
         </div>
 
@@ -49,7 +56,7 @@
 
             <div>
                 <h2 class="subtitle text-uppercase bg-light col-md-8">5 Day forecast</h2>
-                <div class="five-day"></div>
+                <div id="forecast"></div>
             </div>
         </div>
 
@@ -60,7 +67,7 @@
     </footer>-->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="./assets/script.js"></script>
+    <script src="./assets/script2.js"></script>
 </body>
 
 </html>

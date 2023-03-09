@@ -34,6 +34,9 @@ h6 {
     line-height: 1.25;
 }
 
+.listgroup {
+    color: red;
+}
 
 .searchBtn {
     margin-top: 20px;
@@ -145,10 +148,21 @@ h6 {
     width: 40%;
 }
 
-.five-day {
+.forecast {
     display: flex;
 }
 
 .subtitle {
     display: none;
+}
+
+.forecast-item {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.forecast-icon {
+    font-size: 2rem;
 }
