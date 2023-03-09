@@ -28,23 +28,15 @@ h3,
 h4,
 h5,
 h6 {
-    font-weight: 700;
+    font-weight: 500;
     margin: 0;
     color: var(--dark);
     line-height: 1.25;
 }
 
-main {
-    margin-left: 40px auto;
-    width: 94%;
-    min-height: 100%;
-    overflow: auto;
-}
 
 .searchBtn {
     margin-top: 20px;
-    font-size: 20px;
-    width: 100%;
     border-radius: var(--border-radius);
     color: var(--primary);
     background-color: var(--light-dark);
@@ -140,25 +132,17 @@ main {
 .card {
     border: 3px solid var(--dark);
     border-radius: var(--border-radius);
-}
-
-.card-header {
-    color: var(--primary);
-    background-color: var(--dark);
-    padding: 2.5%;
-    border-radius: calc(0.18rem - 1px) calc(0.18rem - 1px) 0 0;
+    align-content: center;
+    float: left;
+    width: 55%;
 }
 
 .weather-card {
-    margin-bottom: 10px;
-    padding: 1.5%;
+    float: right;
     border-radius: var(--border-radius);
     background-color: var(--light-dark);
     color: var(--primary);
-    text-decoration: none;
-    margin-right: 10px;
-    height: 250px;
-    line-height: 1.8;
+    width: 40%;
 }
 
 .five-day {
@@ -167,11 +151,4 @@ main {
 
 .subtitle {
     display: none;
-}
-
-#footer {
-    margin-top: -100px;
-    position: relative;
-    display: flex;
-    justify-content: center;
 }
