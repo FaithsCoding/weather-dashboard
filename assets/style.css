@@ -1,11 +1,11 @@
+/* We are using the Bootstrap CSS files via a CDN and so most of the CSS rules are predefined by Bootstrap, however we have had to create some custom classes with rules in this stylesheet */
 :root {
     --primary: #ffffff;
-    --secondary: #509ad7;
-    --tertiary: #79a3c8;
     --light-dark: #4b74a5;
     --dark: #425364;
     --pink: #dec3c3;
 }
+/*The variables above allow us to use specify the same colour in numerous places easily */
 
 * {
     box-sizing: border-box;
@@ -34,53 +34,14 @@ h6 {
     line-height: 1.25;
 }
 
-.listgroup {
-    color: red;
-}
-
-.searchBtn {
-    margin-top: 20px;
-    border-radius: var(--border-radius);
-    color: var(--primary);
-    background-color: var(--light-dark);
-}
-
+/* We use a hero class to create a header for our site */
 .hero {
     padding: 3% 4%;
     color: #FFF;
     background-color: var(--pink);
 }
 
-
-.app-title {
-    font-size: 3rem;
-    background-color: var(--primary);
-    color: var(--dark);
-    padding: 0 10px;
-    display: inline-block;
-    border-radius: var(--border-radius);
-    box-shadow: 6px 5px var(--light-dark);
-}
-
-.list-group {
-    margin-bottom: 10px;
-    padding: 1.5%;
-    border-radius: var(--border-radius);
-    background-color: var(--light-dark);
-    color: white;
-    text-decoration: none;
-
-}
-
-.list-item:hover {
-    background-color: var(--dark);
-}
-
-.icon {
-    width: 10%;
-    height: 10%;
-}
-
+/* We use this class to keep the search button and recently searched information to the side of the page */
 .side {
     border: 3px solid var(--pink);
     border-radius: var(--border-radius);
@@ -89,27 +50,11 @@ h6 {
     width: 55%;
 }
 
-.weather-card {
-    float: right;
-    border-radius: var(--border-radius);
-    background-color: var(--light-dark);
-    color: var(--primary);
-    width: 40%;
-}
-
-.forecast {
-    display: flex;
-}
-
 .card-header {
     background-color: var(--pink);
   }
 
-.forecast-container {
-    display: flex;
-    flex-wrap: wrap;
-  }
-
+/*These cards are what each forecast is displayed in, we use flex classes to allow them to be stacked in a row */
 #forecast-cards {
     display: flex;
     flex-wrap: wrap;
@@ -118,49 +63,24 @@ h6 {
     padding-top: ;
   } 
 
-.subtitle {
-    display: none;
-}
-
-.forecast-item {
-    width: 200px;
-    height: 300px;
-    margin: 10px;
-    background-color: #eee;
-    border: 1px solid #ccc;
-  }
-
-
-.forecast-icon {
-    font-size: 2rem;
-}
-
-.forecast-title {
-    font-weight: bold;
-    text-transform: capitalize;
-}
-/* Sticky footer styles
--------------------------------------------------- */
 html {
     position: relative;
     min-height: 100%;
   }
+
   body {
-    margin-bottom: 60px; /* Margin bottom by footer height */
+    margin-bottom: 60px;
   }
+
+  /*We have created a sticky footer so it is always at the bottom of the page */
   .footer {
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 60px; /* Set the fixed height of the footer here */
-    line-height: 60px; /* Vertically center the text there */
+    height: 60px; 
+    line-height: 60px; 
     background-color: #f5f5f5;
   }
-  
-  
-  /* Custom page CSS
-  -------------------------------------------------- */
-  /* Not required for template or sticky footer method. */
   
   .container {
     width: auto;
@@ -168,10 +88,14 @@ html {
     padding: 0 15px;
   }
 
-  .card {
-    width: 200px;
-    height: 500px;
-    margin-right: 20px;
-    margin-bottom: 20px;
-    border: 4px solid --pink;
+  /*This class uses the icon provided by the API and positions it at the top of the card, we adjust the size of the icon so it isn't too big */
+  .card-img-top {
+    width: 80px;
+  }
+
+  /* We use this class to make the city name bold & larger so it's easier to read */
+  .forecast-title {
+    font-weight: bold;
+    font-size: 20px;
+    text-transform: capitalize;
   }
