@@ -41,8 +41,8 @@ An online application that allows users to search for a city to get the current 
 <p><a href="https://getbootstrap.com/">Bootstrap</a></p>
 
 ## Challenges:
-Server Side API's
-CDN/Bootstrap Styling
+<p>Server Side API's</p>
+<p>CDN/Bootstrap Styling</p>
 
 - - -
 ## Creators:
